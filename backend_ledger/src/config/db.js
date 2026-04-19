@@ -7,7 +7,7 @@ async function connectToDB() {
     console.log("Server is connected to DB");
   })
   .catch(err => {
-    console.log("Error in connecting to DB");
+    console.log("Error in connecting to DB", err.message);
     process.exit(1);
   })
 }
