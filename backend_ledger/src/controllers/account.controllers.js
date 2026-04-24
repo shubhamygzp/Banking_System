@@ -22,6 +22,26 @@ async function createAccountController(req, res) {
 
 
 
+/**
+ * - Create account controller
+ * - POST /api/accounts/
+ */
+async function getUserAccountsController(req, res) {
+  const user = req.user;
+
+  const accounts = await accountModel.find({
+    user: user._id,
+  });
+
+  res.status(200).json({
+    accounts,
+  });
+}
+
+
+
+
 module.exports = {
   createAccountController,
+  getUserAccountsController,
 };
