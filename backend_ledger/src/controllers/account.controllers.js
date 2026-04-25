@@ -23,8 +23,8 @@ async function createAccountController(req, res) {
 
 
 /**
- * - Create account controller
- * - POST /api/accounts/
+ * - Get User Accounts Controller
+ * - GET /api/accounts/
  */
 async function getUserAccountsController(req, res) {
   const user = req.user;
@@ -41,7 +41,38 @@ async function getUserAccountsController(req, res) {
 
 
 
+/**
+ * - Get Account Balance Controller
+ * - GET /api/accounts/balance/:accountId
+ */
+async function getAccountBalanceController(req, res) {
+  const { accountId } = req.params;
+  const id = req.user._id;
+
+  const account = await accountModel.findOne({
+    _id: accountId,
+    user: id,
+  });
+
+  if (!account) {
+    return res.status(404).json({
+      message: "Account not found",
+    });
+  }
+
+  const balance = await account.getBalance();
+
+  res.status(200).json({
+    accountId: account._id,
+    balance: balance,
+  });
+}
+
+
+
+
 module.exports = {
   createAccountController,
   getUserAccountsController,
+  getAccountBalanceController,
 };
